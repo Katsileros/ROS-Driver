@@ -41,7 +41,7 @@ private:
 	std::string port;
 	int32_t baud;
 	ros::Publisher read_publisher;
-	ros::Subscriber cmd_vel_sub;
+	ros::Subscriber command_sub;
 
 	int channel_number_1;
 	int channel_number_2;
@@ -55,7 +55,7 @@ private:
 
 		nh.getParam("port", port);
 		nh.getParam("baud", baud);
-		cmd_vel_sub = nh.subscribe("/cmd_vel", 10, &RoboteqDriver::cmd_vel_callback, this);
+		command_sub = nh.subscribe("/AckermannModule/roboteq_command", 10, &RoboteqDriver::ackermann_command_callback, this);
 
 		connect();
 	}
@@ -92,17 +92,11 @@ private:
 		run();
 	}
 
-	void cmd_vel_callback(const geometry_msgs::Twist &msg)
+	void ackermann_command_callback(const std_msgs::String &msg)
 	{
-		std::stringstream cmd_sub;
-		cmd_sub << "!G 1"
-				<< " " << msg.linear.x << "_"
-				<< "!G 2"
-				<< " " << msg.angular.z << "_";
-
-		ser.write(cmd_sub.str());
+		ser.write(msg.data);
 		ser.flush();
-		ROS_INFO_STREAM(cmd_sub.str());
+		ROS_INFO_STREAM(msg.data);
 	}
 
 	ros::NodeHandle n;
