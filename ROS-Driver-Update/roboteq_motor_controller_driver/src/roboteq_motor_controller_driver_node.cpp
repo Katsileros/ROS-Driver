@@ -52,10 +52,30 @@ private:
 
 	void initialize()
 	{
-
-		nh.getParam("port", port);
+		nh.getParam("~port", port);
 		nh.getParam("baud", baud);
-		command_sub = nh.subscribe("/AckermannModule/roboteq_command", 10, &RoboteqDriver::ackermann_command_callback, this);
+		if(!port.compare("/dev/ttyACM0")) {
+			command_sub = nh.subscribe("/AckermannModule/roboteq_command_0", 10, &RoboteqDriver::ackermann_command_callback, this);
+		}
+		else if(!port.compare("/dev/ttyACM1")) {
+			command_sub = nh.subscribe("/AckermannModule/roboteq_command_1", 10, &RoboteqDriver::ackermann_command_callback, this);
+		}
+		else if(!port.compare("/dev/ttyACM2")) {
+			command_sub = nh.subscribe("/AckermannModule/roboteq_command_2", 10, &RoboteqDriver::ackermann_command_callback, this);
+		}
+		else if (port == "/dev/ttyACM3") {
+			command_sub = nh.subscribe("/AckermannModule/roboteq_command_3", 10, &RoboteqDriver::ackermann_command_callback, this);
+		}
+		else {
+			throw std::runtime_error("Port is not valid. Valid inputs are: /dev/ttyACM0-3");
+		}
+
+		std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
+		std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
+		std::cout << command_sub.getTopic() << std::endl;
+		std::cout << port << std::endl;
+		std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
+		std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
 
 		connect();
 	}
