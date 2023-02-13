@@ -23,9 +23,9 @@
 class RoboteqDriver
 {
 public:
-	RoboteqDriver()
+	RoboteqDriver(int id)
 	{
-		initialize(); //constructor - Initialize
+		initialize(id); //constructor - Initialize
 	}
 
 	~RoboteqDriver()
@@ -50,25 +50,45 @@ private:
 	int frequencyG;
 	ros::NodeHandle nh;
 
-	void initialize()
+	void initialize(int id)
 	{
-		nh.getParam("~port", port);
+		nh.getParam("port", port);
 		nh.getParam("baud", baud);
-		if(!port.compare("/dev/ttyACM0")) {
-			command_sub = nh.subscribe("/AckermannModule/roboteq_command_0", 10, &RoboteqDriver::ackermann_command_callback, this);
-		}
-		else if(!port.compare("/dev/ttyACM1")) {
+		if(id == 1) {
 			command_sub = nh.subscribe("/AckermannModule/roboteq_command_1", 10, &RoboteqDriver::ackermann_command_callback, this);
+			port = "/dev/ttyACM0";
 		}
-		else if(!port.compare("/dev/ttyACM2")) {
+		else if(id == 2) {
 			command_sub = nh.subscribe("/AckermannModule/roboteq_command_2", 10, &RoboteqDriver::ackermann_command_callback, this);
+			port = "/dev/ttyACM1";
 		}
-		else if (port == "/dev/ttyACM3") {
+		else if(id == 3) {
 			command_sub = nh.subscribe("/AckermannModule/roboteq_command_3", 10, &RoboteqDriver::ackermann_command_callback, this);
+			port = "/dev/ttyACM2";
+		}
+		else if (id == 4) {
+			command_sub = nh.subscribe("/AckermannModule/roboteq_command_4", 10, &RoboteqDriver::ackermann_command_callback, this);
+			port = "/dev/ttyACM3";
 		}
 		else {
 			throw std::runtime_error("Port is not valid. Valid inputs are: /dev/ttyACM0-3");
 		}
+
+		// if(port.compare("/dev/ttyACM0") == 0) {
+		// 	command_sub = nh.subscribe("/AckermannModule/roboteq_command_1", 10, &RoboteqDriver::ackermann_command_callback, this);
+		// }
+		// else if(port.compare("/dev/ttyACM1") == 0) {
+		// 	command_sub = nh.subscribe("/AckermannModule/roboteq_command_2", 10, &RoboteqDriver::ackermann_command_callback, this);
+		// }
+		// else if(port.compare("/dev/ttyACM2") == 0) {
+		// 	command_sub = nh.subscribe("/AckermannModule/roboteq_command_3", 10, &RoboteqDriver::ackermann_command_callback, this);
+		// }
+		// else if (port.compare("/dev/ttyACM3") == 0) {
+		// 	command_sub = nh.subscribe("/AckermannModule/roboteq_command_4", 10, &RoboteqDriver::ackermann_command_callback, this);
+		// }
+		// else {
+		// 	throw std::runtime_error("Port is not valid. Valid inputs are: /dev/ttyACM0-3");
+		// }
 
 		std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
 		std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
@@ -116,6 +136,7 @@ private:
 	{
 		ser.write(msg.data);
 		ser.flush();
+		std::cout << "##" << port << "##" << std::endl;
 		ROS_INFO_STREAM(msg.data);
 	}
 
@@ -280,13 +301,16 @@ private:
 	}
 };
 
-int main(int argc, char **argv)
-{
-	ros::init(argc, argv, "roboteq_motor_controller_driver");
+// int main(int argc, char **argv)
+// {
+// 	ros::init(argc, argv, "roboteq_motor_controller_driver");
 
-	RoboteqDriver driver;
+// 	RoboteqDriver driver1(1);
+// 	RoboteqDriver driver2(2);
+// 	RoboteqDriver driver3(3);
+// 	RoboteqDriver driver4(4);
 
-	ros::waitForShutdown();
+// 	ros::waitForShutdown();
 
-	return 0;
-}
+// 	return 0;
+// }

@@ -139,10 +139,18 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/roboteq_motor_controller_driver_node.cpp)
-add_executable(roboteq_motor_controller_driver_node
- #src/main.cpp
- src/roboteq_motor_controller_driver_node.cpp)
- #src/configservice.cpp)
+# add_executable(roboteq_motor_controller_driver_node
+#  #src/main.cpp
+#  src/roboteq_motor_controller_driver_node.cpp)
+#  #src/configservice.cpp)
+
+ add_executable(roboteq_motor_controller_driver_node1 src/node1.cpp)
+
+ add_executable(roboteq_motor_controller_driver_node2 src/node2.cpp)
+
+ add_executable(roboteq_motor_controller_driver_node3 src/node3.cpp)
+
+ add_executable(roboteq_motor_controller_driver_node4 src/node4.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -152,9 +160,25 @@ add_executable(roboteq_motor_controller_driver_node
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(roboteq_motor_controller_driver_node  roboteq_motor_controller_driver_generate_messages_cpp)
+# add_dependencies(roboteq_motor_controller_driver_node  roboteq_motor_controller_driver_generate_messages_cpp)
+add_dependencies(roboteq_motor_controller_driver_node1  roboteq_motor_controller_driver_generate_messages_cpp)
+add_dependencies(roboteq_motor_controller_driver_node2  roboteq_motor_controller_driver_generate_messages_cpp)
+add_dependencies(roboteq_motor_controller_driver_node3  roboteq_motor_controller_driver_generate_messages_cpp)
+add_dependencies(roboteq_motor_controller_driver_node4  roboteq_motor_controller_driver_generate_messages_cpp)
 
-target_link_libraries(roboteq_motor_controller_driver_node
+# target_link_libraries(roboteq_motor_controller_driver_node
+#   ${catkin_LIBRARIES}
+# )
+target_link_libraries(roboteq_motor_controller_driver_node1
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(roboteq_motor_controller_driver_node2
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(roboteq_motor_controller_driver_node3
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(roboteq_motor_controller_driver_node4
   ${catkin_LIBRARIES}
 )
 
@@ -228,7 +252,7 @@ install(DIRECTORY include/${PROJECT_NAME}/
 )
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
-install(TARGETS roboteq_motor_controller_driver_node
+install(TARGETS roboteq_motor_controller_driver_node1 roboteq_motor_controller_driver_node2 roboteq_motor_controller_driver_node3 roboteq_motor_controller_driver_node4
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
