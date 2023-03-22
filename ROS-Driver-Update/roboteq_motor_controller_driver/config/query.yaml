@@ -1,4 +1,3 @@
-port : "/dev/ttyACM0"
 baud : 115200
 
 frequencyH : 50   #higher frequency (value is in ms)
@@ -22,8 +21,8 @@ queryH:
 # battery_amps2 : ?PHA
 # power2 : ?sns          
 # fault_flag2 : ?S  
-# status_flag : ?FS
-# firmware_id : ?FID  
-# encoder_count : ?C
-# encoder_speed : ?S  
+status_flag : ?FS
+firmware_id : ?FID  
+encoder_count : ?C
+encoder_speed : ?S  
 

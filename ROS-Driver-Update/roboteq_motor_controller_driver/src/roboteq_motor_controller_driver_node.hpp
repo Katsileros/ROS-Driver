@@ -54,48 +54,25 @@ private:
 	{
 		nh.getParam("port", port);
 		nh.getParam("baud", baud);
-		if(id == 1) {
-			command_sub = nh.subscribe("/AckermannModule/roboteq_command_1", 10, &RoboteqDriver::ackermann_command_callback, this);
+		if(id == 0) {
+			command_sub = nh.subscribe("/AckermannModule/roboteq_command_0", 10, &RoboteqDriver::ackermann_command_callback, this);
 			port = "/dev/ttyACM0";
+		}
+		else if(id == 1) {
+			command_sub = nh.subscribe("/AckermannModule/roboteq_command_1", 10, &RoboteqDriver::ackermann_command_callback, this);
+			port = "/dev/ttyACM1";
 		}
 		else if(id == 2) {
 			command_sub = nh.subscribe("/AckermannModule/roboteq_command_2", 10, &RoboteqDriver::ackermann_command_callback, this);
-			port = "/dev/ttyACM1";
-		}
-		else if(id == 3) {
-			command_sub = nh.subscribe("/AckermannModule/roboteq_command_3", 10, &RoboteqDriver::ackermann_command_callback, this);
 			port = "/dev/ttyACM2";
 		}
-		else if (id == 4) {
-			command_sub = nh.subscribe("/AckermannModule/roboteq_command_4", 10, &RoboteqDriver::ackermann_command_callback, this);
+		else if (id == 3) {
+			command_sub = nh.subscribe("/AckermannModule/roboteq_command_3", 10, &RoboteqDriver::ackermann_command_callback, this);
 			port = "/dev/ttyACM3";
 		}
 		else {
 			throw std::runtime_error("Port is not valid. Valid inputs are: /dev/ttyACM0-3");
 		}
-
-		// if(port.compare("/dev/ttyACM0") == 0) {
-		// 	command_sub = nh.subscribe("/AckermannModule/roboteq_command_1", 10, &RoboteqDriver::ackermann_command_callback, this);
-		// }
-		// else if(port.compare("/dev/ttyACM1") == 0) {
-		// 	command_sub = nh.subscribe("/AckermannModule/roboteq_command_2", 10, &RoboteqDriver::ackermann_command_callback, this);
-		// }
-		// else if(port.compare("/dev/ttyACM2") == 0) {
-		// 	command_sub = nh.subscribe("/AckermannModule/roboteq_command_3", 10, &RoboteqDriver::ackermann_command_callback, this);
-		// }
-		// else if (port.compare("/dev/ttyACM3") == 0) {
-		// 	command_sub = nh.subscribe("/AckermannModule/roboteq_command_4", 10, &RoboteqDriver::ackermann_command_callback, this);
-		// }
-		// else {
-		// 	throw std::runtime_error("Port is not valid. Valid inputs are: /dev/ttyACM0-3");
-		// }
-
-		std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
-		std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
-		std::cout << command_sub.getTopic() << std::endl;
-		std::cout << port << std::endl;
-		std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
-		std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
 
 		connect();
 	}
@@ -217,7 +194,7 @@ private:
 		{
 			Key KH = iter->first;
 
-			KH_vector.push_back(KH);
+			KH_vector.push_back(this->port + "/" + KH);
 
 			Val VH = iter->second;
 

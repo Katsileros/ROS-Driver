@@ -22,9 +22,9 @@
 
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "roboteq_motor_controller_driver_2");
+	ros::init(argc, argv, "roboteq_motor_controller_driver_1");
 
-	RoboteqDriver driver(2);
+	RoboteqDriver driver(1);
 	ros::waitForShutdown();
 
 	return 0;
