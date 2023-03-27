@@ -113,8 +113,7 @@ private:
 	{
 		ser.write(msg.data);
 		ser.flush();
-		std::cout << "##" << port << "##" << std::endl;
-		ROS_INFO_STREAM(msg.data);
+		ROS_INFO_STREAM("## port: " << port << " | " << msg.data << " ##");
 	}
 
 	ros::NodeHandle n;
