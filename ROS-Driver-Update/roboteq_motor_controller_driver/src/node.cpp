@@ -22,9 +22,15 @@
 
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "roboteq_motor_controller_driver_2");
+	ros::init(argc, argv, "roboteq_motor_controller_driver_0");
+	
+	if(argc < 1) {
+		std::runtime_error("roboteq_motor_controller_driver node should be called with an arg specifying the node id (0, 1, 2, 3).");
+	}
 
-	RoboteqDriver driver(2);
+	int id = std::atoi(argv[0]);
+
+	RoboteqDriver driver(id);
 	ros::waitForShutdown();
 
 	return 0;

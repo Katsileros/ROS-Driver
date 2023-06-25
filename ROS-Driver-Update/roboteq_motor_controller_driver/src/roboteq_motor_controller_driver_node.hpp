@@ -49,6 +49,7 @@ private:
 	int frequencyL;
 	int frequencyG;
 	ros::NodeHandle nh;
+	int id_;
 
 	void initialize(int id)
 	{
@@ -74,15 +75,14 @@ private:
 			throw std::runtime_error("Port is not valid. Valid inputs are: /dev/ttyACM0-3");
 		}
 
+		this->id_ = id;
 		connect();
 	}
 
 	void connect()
 	{
-
 		try
 		{
-
 			ser.setPort(port);
 			ser.setBaudrate(baud); //get baud as param
 			serial::Timeout to = serial::Timeout::simpleTimeout(1000);
@@ -113,7 +113,7 @@ private:
 	{
 		ser.write(msg.data);
 		ser.flush();
-		ROS_INFO_STREAM("## port: " << port << " | " << msg.data << " ##");
+		// ROS_INFO_STREAM("## port: " << port << " | " << msg.data << " ##");
 	}
 
 	ros::NodeHandle n;
@@ -162,9 +162,9 @@ private:
 	void initialize_services()
 	{
 		n = ros::NodeHandle();
-		configsrv = n.advertiseService("config_service", &RoboteqDriver::configservice, this);
-		commandsrv = n.advertiseService("command_service", &RoboteqDriver::commandservice, this);
-		maintenancesrv = n.advertiseService("maintenance_service", &RoboteqDriver::maintenanceservice, this);
+		configsrv = n.advertiseService("config_service_" + std::to_string(this->id_), &RoboteqDriver::configservice, this);
+		commandsrv = n.advertiseService("command_service_" + std::to_string(this->id_), &RoboteqDriver::commandservice, this);
+		maintenancesrv = n.advertiseService("maintenance_service_" + std::to_string(this->id_), &RoboteqDriver::maintenanceservice, this);
 	}
 
 	void run()
@@ -262,7 +262,7 @@ private:
 								count++;
 								if (count > 10)
 								{
-									ROS_INFO_STREAM("Garbage data on Serial");
+									ROS_INFO_STREAM(this->port << " - Garbage data on Serial");
 									//std::cerr << e.what() << '\n';
 								}
 							}
