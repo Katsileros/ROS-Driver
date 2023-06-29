@@ -1,20 +1,16 @@
 <launch>
     <rosparam command="load" file="$(find roboteq_motor_controller_driver)/config/query.yaml" />
+    <arg name="id0" default="0"/>
+    <arg name="id1" default="1"/>
+    <arg name="id2" default="2"/>
+    <arg name="id3" default="3"/>
+    
+    <node name = "roboteq_motor_controller_driver_0" pkg = "roboteq_motor_controller_driver" type = "roboteq_motor_controller_driver_node" output = "screen" args="$(arg id0)"/>
 
-    <node name = "roboteq_motor_controller_driver_0" pkg = "roboteq_motor_controller_driver" type = "roboteq_motor_controller_driver_node" output = "screen"/> 
-        <arg name="id" type="int" value="0" />
-    </node>
+    <node name = "roboteq_motor_controller_driver_1" pkg = "roboteq_motor_controller_driver" type = "roboteq_motor_controller_driver_node" output = "screen" args="$(arg id1)"/>
 
-    <node name = "roboteq_motor_controller_driver_1" pkg = "roboteq_motor_controller_driver" type = "roboteq_motor_controller_driver_node" output = "screen"/>
-        <arg name="id" type="int" value="1" />
-    </node> 
-
-    <node name = "roboteq_motor_controller_driver_2" pkg = "roboteq_motor_controller_driver" type = "roboteq_motor_controller_driver_node" output = "screen"/>
-        <arg name="id" type="int" value="2" />
-    </node>
-
-    <node name = "roboteq_motor_controller_driver_3" pkg = "roboteq_motor_controller_driver" type = "roboteq_motor_controller_driver_node" output = "screen"/> 
-        <arg name="id" type="int" value="3" />
-    </node> 
+    <node name = "roboteq_motor_controller_driver_2" pkg = "roboteq_motor_controller_driver" type = "roboteq_motor_controller_driver_node" output = "screen" args="$(arg id2)"/>
+    
+    <node name = "roboteq_motor_controller_driver_3" pkg = "roboteq_motor_controller_driver" type = "roboteq_motor_controller_driver_node" output = "screen" args="$(arg id3)"/>
  
 </launch>

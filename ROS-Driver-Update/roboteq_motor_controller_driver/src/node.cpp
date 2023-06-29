@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 		std::runtime_error("roboteq_motor_controller_driver node should be called with an arg specifying the node id (0, 1, 2, 3).");
 	}
 
-	int id = std::atoi(argv[0]);
+	int id = std::atoi(argv[1]);
 
 	RoboteqDriver driver(id);
 	ros::waitForShutdown();
